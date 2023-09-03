@@ -13,8 +13,8 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool scureText = true;
-    TextEditingController emailController=TextEditingController();
-    TextEditingController passwordController=TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   final formkey = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _LoginState extends State<Login> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w900,
                                 fontSize: 70,
-                                color: Color(0xffF25E3D)),
+                                color: Theme.of(context).primaryColorDark),
                           ),
                         ),
                         SizedBox(
@@ -69,16 +69,18 @@ class _LoginState extends State<Login> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Color.fromARGB(155, 242, 94, 61)),
+                                    color: Theme.of(context).primaryColorDark),
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xffF25E3D)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColorLight),
                                 borderRadius: BorderRadius.circular(40),
                               ),
-                              labelStyle: TextStyle(color: Color(0xffF25E3D)),
-                              prefixIconColor: Color(0xffF25E3D)),
+                              labelStyle: TextStyle(
+                                  color: Theme.of(context).primaryColorDark),
+                              prefixIconColor:
+                                  Theme.of(context).primaryColorDark),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter password';
@@ -93,7 +95,7 @@ class _LoginState extends State<Login> {
                           height: 30,
                         ),
                         TextFormField(
-                          controller: passwordController,
+                            controller: passwordController,
                             obscureText: scureText,
                             enableSuggestions: false,
                             autocorrect: false,
@@ -114,17 +116,20 @@ class _LoginState extends State<Login> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Color.fromARGB(155, 242, 94, 61)),
+                                    color: Theme.of(context).primaryColorDark),
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xffF25E3D)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColorLight),
                                 borderRadius: BorderRadius.circular(40),
                               ),
-                              labelStyle: TextStyle(color: Color(0xffF25E3D)),
-                              prefixIconColor: Color(0xffF25E3D),
-                              suffixIconColor: Color(0xffF25E3D),
+                              labelStyle: TextStyle(
+                                  color: Theme.of(context).primaryColorDark),
+                              prefixIconColor:
+                                  Theme.of(context).primaryColorDark,
+                              suffixIconColor:
+                                  Theme.of(context).primaryColorDark,
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -143,7 +148,8 @@ class _LoginState extends State<Login> {
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.0)),
-                              primary: Color(0xffF25E3D), // Background color
+                              primary: Theme.of(context)
+                                  .primaryColorDark, // Background color
                             ),
                             onPressed: () {
                               SignInParamter();
@@ -173,7 +179,6 @@ class _LoginState extends State<Login> {
                               children: [
                                 Text('Not a member ?',
                                     style: TextStyle(
-                                      color: Colors.black,
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     )),
@@ -187,7 +192,7 @@ class _LoginState extends State<Login> {
                                   },
                                   child: Text('Register now'),
                                   style: TextButton.styleFrom(
-                                    primary: Color(0xffF25E3D),
+                                    primary: Theme.of(context).primaryColorDark,
                                   ),
                                 )
                               ]),
@@ -201,6 +206,7 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
   void SignInParamter() async {
     if (formkey.currentState!.validate()) {
       showDialog(
@@ -212,9 +218,9 @@ class _LoginState extends State<Login> {
           });
       FireBaseHelper()
           .SignIn(
-              emailController.text.toString(),
-              passwordController.text.toString(),
-              )
+        emailController.text.toString(),
+        passwordController.text.toString(),
+      )
           .then((value) {
         if (value is User) {
           Navigator.pushReplacement(

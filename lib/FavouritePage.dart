@@ -36,27 +36,32 @@ class _FavouriteState extends State<Favourite> {
   @override
   Widget build(BuildContext context) {
     if (favList.isEmpty) {
-      return Center(
-        child: Text(
-          "You don't have any favourites",
-          style: TextStyle(color:  Color.fromARGB(255, 0, 0, 0), fontSize: 20),
+      return Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: Center(
+          child: Text(
+            "You don't have any favourites",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       );
     }
-    return Padding(
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Scaffold(
-          body: isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : ListView.separated(
-                  itemBuilder: (context, index) =>
-                      buildproductmodel(favList[index]),
-                  separatorBuilder: (context, index) => const SizedBox(
-                    height: 15.0,
-                  ),
-                  itemCount: favList.length,
+        child: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : ListView.separated(
+                itemBuilder: (context, index) =>
+                    buildproductmodel(favList[index]),
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 15.0,
                 ),
-        ));
+                itemCount: favList.length,
+              ),
+      ),
+    );
   }
 
   Widget buildproductmodel(products fav) {
@@ -75,8 +80,7 @@ class _FavouriteState extends State<Favourite> {
                 fit: BoxFit.fitWidth,
               ),
               Text(
-                fav.title,
-                style: TextStyle(color: Colors.black),
+                fav.title
               ),
             ]),
           ),

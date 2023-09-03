@@ -28,7 +28,7 @@ class Sqflite {
   final myTable = "fav";
   final id = "id";
   final title = "title";
-  final String Image="Image";
+  final String Image = "Image";
   _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE "$myTable"(

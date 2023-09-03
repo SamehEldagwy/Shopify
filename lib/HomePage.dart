@@ -14,39 +14,55 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-
-
 class _HomePageState extends State<HomePage> {
   List<products> product = [];
 
   Future<List> getData() async {
     List myproducts = await DioHelper()
         .getProducts(path: ApiConstants.baseUrl + ApiConstants.EndPoint);
-         product = products.ConvertToProducts(myproducts);
+    product = products.ConvertToProducts(myproducts);
     return product;
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        IconButton(
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: CustomSearchDelegate(),
-              );
-            },
-            icon: Icon(Icons.search)),
-        IconButton(
-            onPressed: () async {
-              Sqflite mydb = Sqflite();
-              await FireBaseHelper().SignOut();
-               mydb.deleteTable('fav');
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => Login()));
-            },
-            icon: Icon(Icons.logout))
-      ]),
+      appBar: AppBar(
+          title: new Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/shop.png',
+                fit: BoxFit.contain,
+                height: 32,
+              ),
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Shopify",
+                    style:
+                        TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+              )
+            ],
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showSearch(
+                    context: context,
+                    delegate: CustomSearchDelegate(),
+                  );
+                },
+                icon: Icon(Icons.search)),
+            IconButton(
+                onPressed: () async {
+                  Sqflite mydb = Sqflite();
+                  await FireBaseHelper().SignOut();
+                  mydb.deleteTable('fav');
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
+                icon: Icon(Icons.logout))
+          ]),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
@@ -66,7 +82,8 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Column(
-                        children: [GestureDetector(
+                        children: [
+                          GestureDetector(
                             child: Image.network(
                               product[index].Image,
                               fit: BoxFit.fitWidth,
@@ -82,8 +99,8 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => info(title, image,
-                                          Id, 3, 20, 2.3)));
+                                      builder: (context) =>
+                                          info(title, image, Id, 3, 20, 2.3)));
                             },
                           ),
                           SizedBox(
@@ -91,12 +108,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Text(
                             product[index].title,
-                            style: TextStyle(color: Colors.black),
                           ),
-                           PressedIconButton(product[index])
+                          PressedIconButton(product[index])
                         ],
                       ),
-                      
                     );
                   },
                 );
@@ -135,7 +150,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-    List<products> product = [];
+  List<products> product = [];
 
   Future<List> getData() async {
     List myproducts = await DioHelper()
@@ -144,7 +159,7 @@ class CustomSearchDelegate extends SearchDelegate {
     return product;
     //setState(() {});
   }
- 
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -165,69 +180,65 @@ class CustomSearchDelegate extends SearchDelegate {
         icon: const Icon(Icons.arrow_back)));
   }
 
-@override
-Widget buildSuggestions(BuildContext context) {
-  List<products> matchQuery = [];
-  for (products fruit in product) {
-    if (fruit.title.toLowerCase().contains(query.toLowerCase())) {
-      matchQuery.add(fruit);
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<products> matchQuery = [];
+    for (products fruit in product) {
+      if (fruit.title.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(fruit);
+      }
     }
-  }
-  return Scaffold(
-    // body: ListView.builder(
-    //   itemCount: product.length,
-    //   itemBuilder: (context, index) {
-    //     products result = matchQuery[index];
-    //     return Container(
-    //       clipBehavior: Clip.antiAlias,
-    //       padding: const EdgeInsets.only(bottom: 8),
-    //       margin: const EdgeInsets.all(16),
-    //       decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(15),
-    //       ),
-    //       child: Column(
-    //         children: [
-    //           GestureDetector(
-    //             child: Image.network(
-    //               result.Image,
-    //               fit: BoxFit.fitWidth,
-    //             ),
-    //             onTap: () {
-    //                             final String title = product[index].title;
-    //                             final String image = product[index].Image;
-    //                             final int Id = product[index].Id;
-                               
-    //               Navigator.push(
-    //                 context,
-    //                 MaterialPageRoute(
-    //                   builder: (context) => info(title, image,Id, 3, 20, 2.3
-    //                   ),
-    //                 ),
-    //               );
-    //             },
-    //           ),
-    //           SizedBox(
-    //             height: 10,
-    //           ),
-    //           Text(
-    //             result.title,
-    //             style: TextStyle(color: Colors.black),
-    //           ),
-    //           PressedIconButton(result),
-    //         ],
-    //       ),
-    //     );
-    //   },
-    // ),
-  );
-}
+    return Scaffold(
+        // body: ListView.builder(
+        //   itemCount: product.length,
+        //   itemBuilder: (context, index) {
+        //     products result = matchQuery[index];
+        //     return Container(
+        //       clipBehavior: Clip.antiAlias,
+        //       padding: const EdgeInsets.only(bottom: 8),
+        //       margin: const EdgeInsets.all(16),
+        //       decoration: BoxDecoration(
+        //         borderRadius: BorderRadius.circular(15),
+        //       ),
+        //       child: Column(
+        //         children: [
+        //           GestureDetector(
+        //             child: Image.network(
+        //               result.Image,
+        //               fit: BoxFit.fitWidth,
+        //             ),
+        //             onTap: () {
+        //                             final String title = product[index].title;
+        //                             final String image = product[index].Image;
+        //                             final int Id = product[index].Id;
 
+        //               Navigator.push(
+        //                 context,
+        //                 MaterialPageRoute(
+        //                   builder: (context) => info(title, image,Id, 3, 20, 2.3
+        //                   ),
+        //                 ),
+        //               );
+        //             },
+        //           ),
+        //           SizedBox(
+        //             height: 10,
+        //           ),
+        //           Text(
+        //             result.title,
+        //             style: TextStyle(color: Colors.black),
+        //           ),
+        //           PressedIconButton(result),
+        //         ],
+        //       ),
+        //     );
+        //   },
+        // ),
+        );
+  }
 
   @override
   Widget buildResults(BuildContext context) {
-
-   return Text("data");
+    return Text("data");
   }
 }
-
-

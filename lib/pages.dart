@@ -23,14 +23,14 @@ class _PagesState extends State<Pages> {
       backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: indexValue,
-        selectedItemColor: Color(0xffF25E3D),
+        selectedItemColor: Theme.of(context).primaryColorLight,
         unselectedItemColor: Colors.grey,
         onTap: (index) {
           setState(() {
             indexValue = index;
           });
         },
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: Theme.of(context).cardColor,
         items: const [
           BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
           BottomNavigationBarItem(

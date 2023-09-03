@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'sqflite.dart';
 
-
 class products {
   final String title;
   final String Image;
@@ -9,14 +8,14 @@ class products {
   // final double rating;
   // final int price;
   // final double discount;
-  products(
-      {required this.title,
-      required this.Image,
-      required this.Id,
-      // required this.rating,
-      // required this.price,
-      // required this.discount
-      });
+  products({
+    required this.title,
+    required this.Image,
+    required this.Id,
+    // required this.rating,
+    // required this.price,
+    // required this.discount
+  });
 
   static List<products> ConvertToProducts(List product) {
     List<products> productList = [];
@@ -38,17 +37,14 @@ class products {
   }
 }
 
-
-
-
 class PressedIconButton extends StatefulWidget {
-
   final products product;
   PressedIconButton(this.product) {}
 
   @override
   _PressedIconButtonState createState() => _PressedIconButtonState();
 }
+
 class _PressedIconButtonState extends State<PressedIconButton> {
   bool _isPressed = false;
   Sqflite mydb = Sqflite();
@@ -57,9 +53,9 @@ class _PressedIconButtonState extends State<PressedIconButton> {
     setState(() {
       _isPressed = true;
       mydb.myInsert('fav', {
-        "title":product.title,
-        "Image":product.Image,
-        "id":product.Id,
+        "title": product.title,
+        "Image": product.Image,
+        "id": product.Id,
         // "price":product.price,
         // "discountPercentage":product.discount
       });
@@ -74,6 +70,7 @@ class _PressedIconButtonState extends State<PressedIconButton> {
       print('Icon Button Unpressed!');
     });
   }
+
   @override
   void initState() {
     super.initState();
@@ -81,8 +78,7 @@ class _PressedIconButtonState extends State<PressedIconButton> {
   }
 
   void checkFavoriteStatus() async {
-    List<Map<String, dynamic>> response =
-    await mydb.readData('''
+    List<Map<String, dynamic>> response = await mydb.readData('''
     SELECT id 
     FROM 'fav'
      where id = ${widget.product.Id}
@@ -91,7 +87,6 @@ class _PressedIconButtonState extends State<PressedIconButton> {
       _isPressed = response.isNotEmpty;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {

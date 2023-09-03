@@ -15,7 +15,7 @@ class info extends StatelessWidget {
         centerTitle: true,
         //0xffF02E65
         title: Text('Product info'),
-        backgroundColor: Color(0xffF25E3D),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -40,7 +40,6 @@ class info extends StatelessWidget {
                     Text(
                       this.title,
                       style: TextStyle(
-                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -63,7 +62,7 @@ class info extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    backgroundColor: Color(0xffF25E3D),
+                    backgroundColor: Theme.of(context).primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
