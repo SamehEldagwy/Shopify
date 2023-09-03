@@ -62,9 +62,38 @@ class _AccountState extends State<Account> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Dark Mode ",style: TextStyle(fontSize: 26),),
+                      Text("Dark Mode: ",style: TextStyle(fontSize: 26),),
                       SizedBox(width: 10,),
                       ChangeThemeButtonWidget(),
+                    ],
+                  ),
+                  SizedBox(height: 30,),
+                  
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [ElevatedButton.icon(
+                                  onPressed: () {},
+                                  icon: Icon( // <-- Icon
+                                    Icons.settings,
+                                    size: 24.0,
+                                  ),
+                                  label: Text('Setting'), // <-- Text
+                                ),
+                    ],
+                  ),
+          
+                  SizedBox(height: 30,),
+                  
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [ElevatedButton.icon(
+                                  onPressed: () {},
+                                  icon: Icon( // <-- Icon
+                                    Icons.language,
+                                    size: 24.0,
+                                  ),
+                                  label: Text('Language'), // <-- Text
+                                ),
                     ],
                   ),
           
