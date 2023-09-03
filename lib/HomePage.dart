@@ -150,13 +150,13 @@ class _HomePageState extends State<HomePage> {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  List<products> product = [];
+  var main_products = <products>[];
 
   Future<List> getData() async {
     List myproducts = await DioHelper()
         .getProducts(path: ApiConstants.baseUrl + ApiConstants.EndPoint);
-    product = products.ConvertToProducts(myproducts);
-    return product;
+    main_products = products.ConvertToProducts(myproducts);
+    return main_products;
     //setState(() {});
   }
 
@@ -182,63 +182,131 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<products> matchQuery = [];
-    for (products fruit in product) {
-      if (fruit.title.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
+      // List<products> display_products = List.from(main_products);
+      // display_products =main_products.where((element) => element.title!.toLowerCase().contains(query.toLowerCase()),).toList();
+      List<products> filteredNames = main_products.where((products) => products.title.toLowerCase().contains(query)).toList();
     return Scaffold(
-        // body: ListView.builder(
-        //   itemCount: product.length,
-        //   itemBuilder: (context, index) {
-        //     products result = matchQuery[index];
-        //     return Container(
-        //       clipBehavior: Clip.antiAlias,
-        //       padding: const EdgeInsets.only(bottom: 8),
-        //       margin: const EdgeInsets.all(16),
-        //       decoration: BoxDecoration(
-        //         borderRadius: BorderRadius.circular(15),
-        //       ),
-        //       child: Column(
-        //         children: [
-        //           GestureDetector(
-        //             child: Image.network(
-        //               result.Image,
-        //               fit: BoxFit.fitWidth,
-        //             ),
-        //             onTap: () {
-        //                             final String title = product[index].title;
-        //                             final String image = product[index].Image;
-        //                             final int Id = product[index].Id;
+       body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FutureBuilder(
+            future: getData(),
+            builder: (context, Snapshot) {
+              if (Snapshot.hasError)
+                return Center(child: Text('ERROR'));
+              else if (Snapshot.hasData)
+                return ListView.builder(
+                  itemCount: filteredNames.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      clipBehavior: Clip.antiAlias,
+                      padding: const EdgeInsets.only(bottom: 8),
+                      margin: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            child: Image.network(
+                              filteredNames[index].Image,
+                              fit: BoxFit.fitWidth,
+                            ),
+                            onTap: () {
+                              //title, image, Id, rating, price, discount
+                              final String title = filteredNames[index].title;
+                              final String image = filteredNames[index].Image;
+                              final int Id = filteredNames[index].Id;
+                              // final double rating = product[index].rating;
+                              // final int price = product[index].price;
+                              // final double discount = product[index].discount;
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          info(title, image, Id, 3, 20, 2.3)));
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            filteredNames[index].title,
+                          ),
+                          PressedIconButton(filteredNames[index])
+                        ],
+                      ),
+                    );
+                  },
+                );
+              else
+                return Center(child: CircularProgressIndicator());
+            }),
+      ),
 
-        //               Navigator.push(
-        //                 context,
-        //                 MaterialPageRoute(
-        //                   builder: (context) => info(title, image,Id, 3, 20, 2.3
-        //                   ),
-        //                 ),
-        //               );
-        //             },
-        //           ),
-        //           SizedBox(
-        //             height: 10,
-        //           ),
-        //           Text(
-        //             result.title,
-        //             style: TextStyle(color: Colors.black),
-        //           ),
-        //           PressedIconButton(result),
-        //         ],
-        //       ),
-        //     );
-        //   },
-        // ),
         );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    return Text("data");
-  }
+      List<products> filteredNames = main_products.where((products) => products.title.toLowerCase().contains(query)).toList();
+     return Scaffold(
+       body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FutureBuilder(
+            future: getData(),
+            builder: (context, Snapshot) {
+              if (Snapshot.hasError)
+                return Center(child: Text('ERROR'));
+              else if (Snapshot.hasData)
+                return ListView.builder(
+                  itemCount: filteredNames.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      clipBehavior: Clip.antiAlias,
+                      padding: const EdgeInsets.only(bottom: 8),
+                      margin: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            child: Image.network(
+                              filteredNames[index].Image,
+                              fit: BoxFit.fitWidth,
+                            ),
+                            onTap: () {
+                              //title, image, Id, rating, price, discount
+                              final String title = filteredNames[index].title;
+                              final String image = filteredNames[index].Image;
+                              final int Id = filteredNames[index].Id;
+                              // final double rating = product[index].rating;
+                              // final int price = product[index].price;
+                              // final double discount = product[index].discount;
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          info(title, image, Id, 3, 20, 2.3)));
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            filteredNames[index].title,
+                          ),
+                          PressedIconButton(filteredNames[index])
+                        ],
+                      ),
+                    );
+                  },
+                );
+              else
+                return Center(child: CircularProgressIndicator());
+            }),
+      ),
+
+        );
+        }
 }
